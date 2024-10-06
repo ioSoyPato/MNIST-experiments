@@ -445,6 +445,26 @@ def MLPFashion():
 
     return results
 
+
+@task(name="Save best model FASHION")
+def saveBestModel():
+    x_train, x_test, x_train_flat, x_test_flat, y_train, y_test = readDataFashion()
+    cnn_model = keras.models.Sequential([
+        keras.layers.Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(28, 28, 1)),
+        keras.layers.MaxPooling2D(pool_size=(2, 2)),
+        keras.layers.Conv2D(64, kernel_size=(3, 3), activation='relu'),
+        keras.layers.MaxPooling2D(pool_size=(2, 2)),
+        keras.layers.Flatten(),
+        keras.layers.Dense(128, activation='relu'),
+        keras.layers.Dense(10, activation='softmax')
+    ])
+
+    cnn_model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+    cnn_model.fit(x_train, y_train, epochs=15, batch_size=128, validation_split=0.2)
+    cnn_model.save("../models/FASHION_cnn_digit_model.h5")
+
+    return cnn_model
+
 @task(name="MainFlow FASHION")
 def MainFlowFashion():
     results = []
