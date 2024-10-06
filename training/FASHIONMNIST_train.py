@@ -16,18 +16,19 @@ import matplotlib.pyplot as plt
 
 @task(name="Read Data")
 def readData():
-    # Cargar datos MNIST
-    (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
+    # Cargar datos Fashion MNIST
+    (x_train, y_train), (x_test, y_test) = keras.datasets.fashion_mnist.load_data()
 
     # Aplanar imágenes para modelos clásicos de ML
     x_train_flat = x_train.reshape(x_train.shape[0], -1) / 255.0
     x_test_flat = x_test.reshape(x_test.shape[0], -1) / 255.0
 
-    # Normalizar datos para redes neuronales
+    # Normalizar datos para redes neuronales (escalar valores a [0, 1] y añadir dimensión de canal)
     x_train = x_train.reshape(-1, 28, 28, 1) / 255.0
     x_test = x_test.reshape(-1, 28, 28, 1) / 255.0
 
     return x_train, x_test, x_train_flat, x_test_flat, y_train, y_test
+
 
 @task(name="Save Results")
 def save_results(results):
@@ -35,7 +36,7 @@ def save_results(results):
     df = pd.DataFrame(results)
     
     # Guardar los resultados en un archivo CSV
-    df.to_csv('./results/MNIST_model_results.csv', index=False)
+    df.to_csv('../results/FASHIONMNIST_model_results.csv', index=False)
 
 @task(name="Logistic Regression")
 def logisticRegression():

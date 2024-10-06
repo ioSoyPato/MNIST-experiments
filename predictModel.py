@@ -1,0 +1,4 @@
+
+
+def predictedImage(name:str):
+    ...
