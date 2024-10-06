@@ -1,5 +1,7 @@
 import pygame
 import predictModel
+import numpy as np
+from PIL import Image
 
 # Constants
 BLACK, WHITE, RED, GREEN = [0, 0, 0], [255, 255, 255], [255, 0, 0], [0, 255, 0]
@@ -39,10 +41,17 @@ def main_loop():
                         draw_on, last_pos = True, e.pos
                 if e.type == pygame.MOUSEBUTTONUP and e.button != 3:
                     draw_on = False
-                    img = crope(screen)
-                    pygame.image.save(img, "out.png")
-                    output_img = predictModel.predictedImage("out.png")
-                    show_output_image(output_img)
+                    # Procesar imagen directamente sin guardar
+                    cropped_img = crope(screen)
+                    img_array = pygame.surfarray.array3d(cropped_img)
+                    img_array = preprocess_image(img_array)
+                    predicted_digit = predictModel.predictedImageArray(img_array)
+                    print(f"Predicted Digit: {predicted_digit}")
+                    # Mostrar el resultado en pantalla
+                    screen.fill(WHITE, (WIDTH + 20, HEIGHT // 2 - 100, WIDTH - 40, 200))
+                    font = pygame.font.SysFont("comicsansms", 72)
+                    text_surface = font.render(str(predicted_digit), True, RED)
+                    screen.blit(text_surface, (WIDTH + 20, HEIGHT // 2))
                 if e.type == pygame.MOUSEMOTION and draw_on:
                     pygame.draw.circle(screen, BLACK, e.pos, RADIUS)
                     roundline(screen, BLACK, e.pos, last_pos, RADIUS)
@@ -56,11 +65,13 @@ def crope(original):
     cropped.blit(original, (0, 0), (0, 0, WIDTH - 5, HEIGHT - 5))
     return cropped
 
-def show_output_image(img):
-    surf = pygame.pixelcopy.make_surface(img)
-    surf = pygame.transform.rotate(surf, -270)
-    surf = pygame.transform.flip(surf, 0, 1)
-    screen.blit(surf, (WIDTH + 2, 0))
+def preprocess_image(img_array):
+    # Convertir imagen a escala de grises, cambiar tamaño a 28x28 y normalizar
+    img = Image.fromarray(np.uint8(img_array)).convert('L').resize((28, 28))
+    img_array = np.array(img) / 255.0
+    img_array = np.expand_dims(img_array, axis=0)
+    img_array = np.expand_dims(img_array, axis=-1)
+    return img_array
 
 if __name__ == "__main__":
     main_loop()
