@@ -35,7 +35,7 @@ def save_results(results):
     df = pd.DataFrame(results)
     
     # Guardar los resultados en un archivo CSV
-    df.to_csv('./results/model_results.csv', index=False)
+    df.to_csv('./results/MNIST_model_results.csv', index=False)
 
 @task(name="Logistic Regression")
 def logisticRegression():
