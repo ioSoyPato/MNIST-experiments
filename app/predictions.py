@@ -28,7 +28,6 @@ def create_model():
 
 
 
-
 def predictData(img_path):
     model = create_model()
     with open('./models/CNN_MNIST.pkl', 'rb') as file:
@@ -42,15 +41,8 @@ def predictData(img_path):
     img_array = np.array(img) / 255.0
 
     img_array = img_array.reshape((1, 28, 28, 1))  
+
     predictions = model.predict(img_array)
     predicted_class = np.argmax(predictions)
 
-    plt.figure(figsize=(10, 5))
-    plt.bar(range(10), predictions[0], color='blue')
-    plt.xlabel('Digits')
-    plt.ylabel('Probability')
-    plt.title('Prediction Probabilities')
-    plt.savefig('static/prediction_probabilities.png')  
-    plt.close()
-
-    return int(predicted_class), '/static/prediction_probabilities.png'
+    return int(predicted_class)
