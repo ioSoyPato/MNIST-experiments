@@ -49,7 +49,7 @@ Results Saving (Save Results):
 Convolutional Neural Network (CNN): Trained with epochs values of [5, 10, 15].
 - __Multi-Layer Perceptron (MLP)__: Trained with different hidden layer configurations: [(64, 32), (128, 64), (256, 128)].
 
-## 📈 Results
+## 📈 Results MNIST
 - The results are saved in model_results.csv, which includes:
 - Model name
 - Hyperparameters used
@@ -100,6 +100,35 @@ Use this CSV file to analyze which model and configuration work best for classif
 | MLP                 | hidden_layers=(64, 32)  | 0.9747   | 0.9746985925543933|
 | MLP                 | hidden_layers=(128, 64) | 0.9785   | 0.9784939791050172|
 | MLP                 | hidden_layers=(256, 128)| 0.9808   | 0.9808010536457669|
+
+## 📈 Results FASHION-MNIST
+- The results are saved in model_results.csv, which includes:
+- Model name
+- Hyperparameters used
+- Accuracy score
+- F1 Score
+
+```csv
+Model,Parameter,Accuracy,F1 Score
+Logistic Regression,max_iter=100,0.8439,0.8431108535561094
+Logistic Regression,max_iter=500,0.8428,0.8421342996330824
+Logistic Regression,max_iter=1000,0.8436,0.8427894400051377
+KNN,n_neighbors=3,0.8541,0.8539002124666113
+KNN,n_neighbors=5,0.8554,0.8546439722018906
+KNN,n_neighbors=7,0.854,0.8534427202406818
+SVM,C=1,0.8828,0.8822648793630384
+SVM,C=10,0.9002,0.9000975523867072
+SVM,C=100,0.8963,0.8960541321771265
+Random Forest,n_estimators=50,0.8737,0.8725613322658357
+Random Forest,n_estimators=100,0.8775,0.8762058223088482
+Random Forest,n_estimators=200,0.8771,0.8757589375940783
+CNN,epochs=5,0.8901000022888184,
+CNN,epochs=10,0.9041000008583069,
+CNN,epochs=15,0.9108999967575073,
+MLP,"hidden_layers=(64, 32)",0.8757,0.8750115101384232
+MLP,"hidden_layers=(128, 64)",0.8808,0.8801993829827099
+MLP,"hidden_layers=(256, 128)",0.8914,0.8912865441859703
+```
 
 ## 🛠️ Customization
 

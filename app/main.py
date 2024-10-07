@@ -8,6 +8,7 @@ from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 import predictions
+from fastapi.staticfiles import StaticFiles
 
 # App
 app = FastAPI()
@@ -24,6 +25,7 @@ app.add_middleware(
 
 # Mount the templates 
 templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
 async def homePage(request:Request):
@@ -33,11 +35,9 @@ async def homePage(request:Request):
 
 
 @app.get("/prediction")
-async def homePage(request:Request):
-    prediction:int = predictions.predictData("./DrawPrediction.png")
-    return templates.TemplateResponse(request=request,
-                                      name="test.html",
-                                      context={"prediccion":prediction})
+async def homePage(request: Request):
+    prediction, probabilities_img_path = predictions.predictData("./DrawPrediction.png")
+    return templates.TemplateResponse("test.html", {"request": request, "prediccion": prediction, "img_probabilidades": probabilities_img_path})
 
 
 
