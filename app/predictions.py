@@ -45,4 +45,13 @@ def predictData(img_path):
     predictions = model.predict(img_array)
     predicted_class = np.argmax(predictions)
 
+    # Generar y guardar el gráfico de barras
+    plt.figure(figsize=(10, 5))
+    plt.bar(range(10), predictions[0], color='blue')
+    plt.xlabel('Digits')
+    plt.ylabel('Probability')
+    plt.title('Prediction Probabilities')
+    plt.savefig('static/prediction_probabilities.png')  # Asegúrate de tener una carpeta 'static' en tu directorio
+    plt.close()
+
     return int(predicted_class)
