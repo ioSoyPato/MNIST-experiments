@@ -37,11 +37,15 @@ async def homePage(request:Request):
 
 @app.get("/prediction")
 async def homePage(request:Request):
-    prediction:int = predictions.predictData("./DrawPrediction.png")
+    prediction:int = predictions.predictData("./static/DrawPrediction.png")
     return templates.TemplateResponse(request=request,
                                       name="test.html",
                                       context={"prediccion":prediction,
-                                               "barras_probabilidad":"/static/prediction_probabilities.png"})
+                                               "barras_probabilidad":"/static/prediction_probabilities.png",
+                                               "DrawnPrediction":"/static/DrawPrediction.png",
+                                               "inverted":"/static/inverted.png",
+                                               "grayscale":"/static/grayscale.png",
+                                               "reshape":"/static/reshape.png"})
 
 
 
@@ -65,7 +69,7 @@ async def download_image(image_data:ImageData):
     os.makedirs(folder_path, exist_ok=True)  # Crear la carpeta si no existe
 
     # Generar un nombre de archivo único
-    file_path = os.path.join(folder_path, f"DrawPrediction.png")
+    file_path = os.path.join(folder_path, f"static/DrawPrediction.png")
 
     # Guardar la imagen
     with open(file_path, 'wb') as f:

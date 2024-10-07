@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 
+
 # Define your model architecture
 def create_model():
     #Modelo conv sin momentum
@@ -36,8 +37,11 @@ def predictData(img_path):
     model.set_weights(weights)
     img = Image.open(img_path).convert('RGB')
     img = ImageOps.invert(img)
+    img.save("./static/inverted.png")
     img = img.convert('L')
+    img.save("./static/grayscale.png")
     img = img.resize((28, 28))
+    img.save("./static/reshape.png")
     img_array = np.array(img) / 255.0
 
     img_array = img_array.reshape((1, 28, 28, 1))  
